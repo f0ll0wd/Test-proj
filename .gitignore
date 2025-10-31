@@ -1,0 +1,24 @@
+# Build artifacts (from CMake or Make)
+build/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+*.o
+*.a
+*.so
+mygame  # Or whatever your executable is named (e.g., the compiled binary)
+
+# Editor/IDE temp files
+.vscode/
+*.swp
+*.tmp
+
+# OS-specific (harmless to include)
+.DS_Store
+Thumbs.db
+
+# Logs and misc
+logs/
+*.log
+

@@ -7,16 +7,19 @@ class Player {
 private:
   sf::Texture texture;
   sf::Texture arrowtexture;
-  float bulletspeed = 0.5f;
+  float bulletspeed;
   std::vector<sf::Sprite> bullets;
   sf::RectangleShape boundingRectangle;
   sf::Vector2i size;
-  float speed = 2.0;
+  float speed;
 
 public:
   std::optional<sf::Sprite> sprite;
 
 public:
+  Player();
+  ~Player();
+
   void Initialize();
   void Load();
   void Update(float deltaTime, Skeleton skeleton);

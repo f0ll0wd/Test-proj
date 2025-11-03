@@ -6,6 +6,10 @@
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
 
+Player::Player() : bulletspeed(0.5f), speed(2.0f) {}
+
+Player::~Player() {}
+
 void Player::Initialize() {
 
   boundingRectangle.setOutlineThickness(2.f);

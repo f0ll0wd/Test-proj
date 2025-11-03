@@ -3,6 +3,9 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <iostream>
 
+Skeleton::Skeleton() {}
+Skeleton::~Skeleton() {}
+
 void Skeleton::Initialize() {
 
   boundingRectangle.setOutlineThickness(2.f);

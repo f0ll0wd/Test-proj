@@ -16,6 +16,9 @@ public:
   sf::Vector2i size;
 
 public:
+  Skeleton();
+  ~Skeleton();
+
   void Initialize();
   void Load();
   void Update(float deltaTime);

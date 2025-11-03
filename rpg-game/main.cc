@@ -1,8 +1,10 @@
+#include "FrameRate.h"
 #include "Mymath.h"
 #include "Player.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -16,11 +18,13 @@
 #include <SFML/Window/VideoMode.hpp>
 #include <iostream>
 #include <math.h>
+#include <string>
 #include <vector>
 
 int main() {
   sf::RenderWindow window(sf::VideoMode({1920, 1080}), "Sahpes");
   window.setFramerateLimit(240);
+  FrameRate fps;
 
   Player player;
   Skeleton skeleton;
@@ -28,10 +32,12 @@ int main() {
   //---------------------------------Initializing---------------------------------
   player.Initialize();
   skeleton.Initialize();
+  fps.Initialize();
 
   //------------------------------Loading------------------------------------------
   player.Load();
   skeleton.Load();
+  fps.Load();
   //------------------------------Loading------------------------------------------
 
   //-----------------------------Bullet making----------------------------------
@@ -53,8 +59,9 @@ int main() {
     //------------------------Updating----------------------------------
 
     sf::Time deltaTimer = clock.restart();
-    float deltaTime = deltaTimer.asMilliseconds();
+    double deltaTime = deltaTimer.asMicroseconds() / 1000.f;
 
+    fps.Update(deltaTime);
     skeleton.Update(deltaTime);
     player.Update(deltaTime, skeleton);
     auto a = Mymath::CheckSpriteCollision(*skeleton.sprite, *player.sprite);
@@ -64,6 +71,7 @@ int main() {
 
     skeleton.Draw(window);
     player.Draw(window);
+    fps.Draw(window);
 
     window.display();
     //------------------------Drawing------------------------------------

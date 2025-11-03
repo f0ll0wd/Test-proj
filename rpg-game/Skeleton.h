@@ -12,10 +12,12 @@ private:
 
 public:
   std::optional<sf::Sprite> sprite;
+  sf::RectangleShape boundingRectangle;
+  sf::Vector2i size;
 
 public:
   void Initialize();
   void Load();
-  void Update();
+  void Update(float deltaTime);
   void Draw(sf::RenderWindow &);
 };

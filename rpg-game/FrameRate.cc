@@ -8,7 +8,7 @@ FrameRate::~FrameRate() {}
 void FrameRate::Initialize() {}
 
 void FrameRate::Load() {
-  if (font.openFromFile("/usr/share/fonts/TTF/JetBrainsMono-Bold.ttf")) {
+  if (font.openFromFile("../assets/Fonts/JetBrainsMono-Bold.ttf")) {
     std::cout << "Loaded font successfullly" << std::endl;
     text = sf::Text(font);
     text->setCharacterSize(21);

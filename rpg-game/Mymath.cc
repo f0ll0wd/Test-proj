@@ -1,4 +1,5 @@
 #include "Mymath.h"
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
 #include <iostream>
@@ -13,9 +14,8 @@ sf::Vector2f Mymath::myNorm(sf::Vector2f bulldistance) {
   return need;
 }
 
-bool Mymath::CheckSpriteCollision(sf::Sprite &sp1, sf::Sprite &sp2) {
-  if (sp1.getGlobalBounds().findIntersection(sp2.getGlobalBounds())) {
-    std::cout << "Collision" << std::endl;
+bool Mymath::CheckSpriteCollision(sf::FloatRect sp1, sf::FloatRect sp2) {
+  if (sp1.findIntersection(sp2)) {
     return true;
   } else {
     return false;

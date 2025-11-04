@@ -26,7 +26,7 @@
 int main() {
   sf::ContextSettings settings;
   settings.antiAliasingLevel = 8;
-  sf::RenderWindow window(sf::VideoMode({1600, 900}), "Rpg-Game",
+  sf::RenderWindow window(sf::VideoMode({1920, 1080}), "Rpg-Game",
                           sf::Style::Default, sf::State::Windowed, settings);
   window.setFramerateLimit(240);
   FrameRate fps;
@@ -72,8 +72,8 @@ int main() {
     double deltaTime = deltaTimer.asMicroseconds() / 1000.f;
 
     sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(window));
-    std::cout << "Mouse Position: " << mousePos.x << " " << mousePos.y
-              << std::endl;
+    // std::cout << "Mouse Position: " << mousePos.x << " " << mousePos.y
+    //           << std::endl;
 
     fps.Update(deltaTime);
     map.Update(deltaTime);

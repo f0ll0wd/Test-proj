@@ -1,3 +1,4 @@
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #pragma one
 
@@ -7,5 +8,5 @@
 class Mymath {
 public:
   static sf::Vector2f myNorm(sf::Vector2f bulldistance);
-  static bool CheckSpriteCollision(sf::Sprite &sp1, sf::Sprite &sp2);
+  static bool CheckSpriteCollision(sf::FloatRect sp1, sf::FloatRect sp2);
 };

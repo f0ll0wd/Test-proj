@@ -1,14 +1,19 @@
 #pragma one
 
+#include "Tile.h"
 #include <SFML/Graphics.hpp>
 struct Map {
 private:
   sf::Texture texture;
-  std::optional<sf::Sprite> sprite;
+  Tile *maptiles;
   int tileWidth;
   int tileHeight;
   int totalX;
   int totalY;
+  int Totaltiles;
+  int mapNumbers[6]{
+      4, 5, 3, 3, 29, 27,
+  };
 
 public:
 public:

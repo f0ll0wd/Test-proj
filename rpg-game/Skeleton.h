@@ -1,3 +1,4 @@
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #pragma one
 
@@ -10,15 +11,21 @@ class Skeleton {
 private:
   sf::Texture texture;
 
+  sf::Font font;
+  std::optional<sf::Text> text;
+
 public:
   std::optional<sf::Sprite> sprite;
   sf::RectangleShape boundingRectangle;
   sf::Vector2i size;
 
+  int health;
+
 public:
   Skeleton();
   ~Skeleton();
 
+  void ChangeHealth(int hp);
   void Initialize();
   void Load();
   void Update(float deltaTime);

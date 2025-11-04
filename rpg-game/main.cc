@@ -22,7 +22,7 @@
 #include <vector>
 
 int main() {
-  sf::RenderWindow window(sf::VideoMode({1920, 1080}), "Sahpes");
+  sf::RenderWindow window(sf::VideoMode({800, 600}), "Sahpes");
   window.setFramerateLimit(240);
   FrameRate fps;
 
@@ -61,13 +61,16 @@ int main() {
     sf::Time deltaTimer = clock.restart();
     double deltaTime = deltaTimer.asMicroseconds() / 1000.f;
 
+    sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(window));
+    std::cout << "Mouse Position: " << mousePos.x << " " << mousePos.y
+              << std::endl;
+
     fps.Update(deltaTime);
     skeleton.Update(deltaTime);
-    player.Update(deltaTime, skeleton);
-    auto a = Mymath::CheckSpriteCollision(*skeleton.sprite, *player.sprite);
+    player.Update(deltaTime, skeleton, mousePos);
 
     //------------------------Drawing------------------------------------
-    window.clear(sf::Color::White);
+    window.clear(sf::Color::Black);
 
     skeleton.Draw(window);
     player.Draw(window);

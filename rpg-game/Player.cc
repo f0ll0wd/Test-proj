@@ -4,9 +4,11 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <iostream>
 
-Player::Player() : bulletspeed(0.5f), speed(2.0f) {}
+Player::Player()
+    : bulletspeed(0.5f), speed(2.0f), maxFireRate(200.f), FireRate(0.f) {}
 
 Player::~Player() {}
 
@@ -26,12 +28,6 @@ void Player::Load() {
   } else {
     std::cout << "Did not load player texture correctly!" << std::endl;
   }
-  if (arrowtexture.loadFromFile("../assets/WEAPON_arrow.png")) {
-    std::cout << "Loaded Arrow successfully brooooooooooooooooooo" << std::endl;
-  } else {
-    std::cout << "Did not load Arrow texture correctly!" << std::endl;
-  }
-
   int Xindex = 0;
   int Yindex = 0;
 
@@ -46,7 +42,8 @@ void Player::Load() {
   boundingRectangle.setPosition(sprite->getPosition());
 }
 
-void Player::Update(float deltaTime, Skeleton skeleton) {
+void Player::Update(float deltaTime, Skeleton &skeleton,
+                    sf::Vector2f &mousePos) {
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
     std::cout << "up button pressed" << std::endl;
     sprite->setPosition(sprite->getPosition() +
@@ -67,20 +64,38 @@ void Player::Update(float deltaTime, Skeleton skeleton) {
     sprite->setPosition(sprite->getPosition() +
                         sf::Vector2f(+0.5f, 0.f) * speed * deltaTime);
   }
-  if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-    sf::Sprite arr(arrowtexture, sf::IntRect({12 * 64, 2 * 64}, {64, 64}));
-    bullets.push_back(arr);
-    auto bull = --bullets.end();
-    bull->setPosition(sprite->getPosition());
-  }
-  boundingRectangle.setPosition(sprite->getPosition());
 
-  for (auto &bullet : bullets) {
-    sf::Vector2f bulletdistance =
-        skeleton.sprite->getPosition() - bullet.getPosition();
-    bulletdistance = Mymath::myNorm(bulletdistance);
-    bullet.setPosition(bullet.getPosition() + bulletdistance * deltaTime);
-    Mymath::CheckSpriteCollision(*skeleton.sprite, bullet);
+  boundingRectangle.setPosition(sprite->getPosition());
+  if (Mymath::CheckSpriteCollision(skeleton.sprite->getGlobalBounds(),
+                                   sprite->getGlobalBounds())) {
+    std::cout << "Collisoin player with skeletion" << std::endl;
+  }
+
+  FireRate += deltaTime;
+
+  if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) &&
+      FireRate >= maxFireRate) {
+    bullets.push_back(Bullets());
+    auto bull = --bullets.end();
+    bull->Load();
+    bull->Initialize(sprite->getPosition(), mousePos);
+    FireRate = 0.f;
+  }
+
+  for (auto bullet = bullets.begin(); bullet != bullets.end(); bullet++) {
+    bullet->Update(deltaTime);
+
+    if (skeleton.health > 0) {
+      std::cout << "Dont see this if skeleton dead if not shit bad cuh"
+                << std::endl;
+      if (Mymath::CheckSpriteCollision(skeleton.sprite->getGlobalBounds(),
+                                       bullet->GetGlobalBounds())) {
+        std::cout << "COllision bullet and skeletion" << std::endl;
+        skeleton.ChangeHealth(-10);
+        bullet = bullets.erase(bullet);
+        --bullet;
+      }
+    }
   }
 }
 
@@ -88,6 +103,6 @@ void Player::Draw(sf::RenderWindow &window) {
   window.draw(boundingRectangle);
   window.draw(*sprite);
   for (auto bullet : bullets) {
-    window.draw(bullet);
+    bullet.Draw(window);
   }
 }

@@ -1,4 +1,5 @@
 #include "FrameRate.h"
+#include "Map.h"
 #include "Mymath.h"
 #include "Player.h"
 #include <SFML/Graphics.hpp>
@@ -16,28 +17,37 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/VideoMode.hpp>
+#include <SFML/Window/WindowEnums.hpp>
 #include <iostream>
 #include <math.h>
 #include <string>
 #include <vector>
 
 int main() {
-  sf::RenderWindow window(sf::VideoMode({800, 600}), "Sahpes");
+  sf::ContextSettings settings;
+  settings.antiAliasingLevel = 8;
+  sf::RenderWindow window(sf::VideoMode({1600, 900}), "Rpg-Game",
+                          sf::Style::Default, sf::State::Windowed, settings);
   window.setFramerateLimit(240);
   FrameRate fps;
+  Map map;
 
   Player player;
   Skeleton skeleton;
   //---------------------------------Initializing---------------------------------
   //---------------------------------Initializing---------------------------------
+  fps.Initialize();
+  map.Initialize();
+
   player.Initialize();
   skeleton.Initialize();
-  fps.Initialize();
 
   //------------------------------Loading------------------------------------------
+  fps.Load();
+  map.Load();
+
   player.Load();
   skeleton.Load();
-  fps.Load();
   //------------------------------Loading------------------------------------------
 
   //-----------------------------Bullet making----------------------------------
@@ -66,12 +76,14 @@ int main() {
               << std::endl;
 
     fps.Update(deltaTime);
+    map.Update(deltaTime);
     skeleton.Update(deltaTime);
     player.Update(deltaTime, skeleton, mousePos);
 
     //------------------------Drawing------------------------------------
     window.clear(sf::Color::Black);
 
+    map.Draw(window);
     skeleton.Draw(window);
     player.Draw(window);
     fps.Draw(window);

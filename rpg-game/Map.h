@@ -1,27 +1,25 @@
 #pragma one
 
+#include "MapLoader.h"
 #include "Tile.h"
 #include <SFML/Graphics.hpp>
 struct Map {
 private:
+  MapLoader *map;
   sf::Texture texture;
   Tile *maptiles;
-  int tileWidth;
-  int tileHeight;
   int totalX;
   int totalY;
   int Totaltiles;
-  int mapNumbers[6]{
-      4, 5, 3, 3, 29, 27,
-  };
+  int *mm;
 
-public:
 public:
   Map();
   ~Map();
 
+  void memhandler();
   void Initialize();
-  void Load();
+  void Load(MapLoader &);
   void Update(float deltaTime);
   void Draw(sf::RenderWindow &);
 };

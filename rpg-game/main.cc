@@ -34,6 +34,11 @@ int main() {
 
   Player player;
   Skeleton skeleton;
+
+  MapLoader mapLoader;
+  mapLoader.Load("../assets/Maps/level1.rmap");
+  std::cout << "TileSHeet from Maploader: " << mapLoader.filevars[0].second
+            << std::endl;
   //---------------------------------Initializing---------------------------------
   //---------------------------------Initializing---------------------------------
   fps.Initialize();
@@ -44,7 +49,7 @@ int main() {
 
   //------------------------------Loading------------------------------------------
   fps.Load();
-  map.Load();
+  map.Load(mapLoader);
 
   player.Load();
   skeleton.Load();
@@ -63,6 +68,7 @@ int main() {
   while (window.isOpen()) {
     while (std::optional event = window.pollEvent()) {
       if (event->is<sf::Event::Closed>()) {
+        // map.memhandler();
         window.close();
       }
     }
